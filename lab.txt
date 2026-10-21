@@ -1,0 +1,517 @@
+Problem:
+
+sudo ip link set enp0s3 up
+
+sudo nano /etc/netplan/01-network-manager-all.yaml
+
+network:
+  version: 2
+  renderer: NetworkManager
+  ethernets:
+    enp0s3:
+      dhcp4: true
+
+sudo netplan apply
+
+sudo nano /etc/NetworkManager/NetworkManager.conf
+
+sudo systemctl restart NetworkManager
+
+sudo dhclient -v enp0s3
+
+
+Exp 1:
+sudo -i
+adduser lathika
+usermod -aG sudo lathika
+su - lathika
+  
+sudo useradd -m Nanthitha
+sudo passwd Nanthitha
+sudo usermod -aG sudo Nanthitha
+su - Nanthitha
+sudo deluser --remove-home Nanthitha
+pwd
+ls
+echo “hello” >> nan.txt
+grep “hello” nan
+df -h
+du -sh
+top
+date 
+time
+touch file.txt
+head -n file.txt
+uname -a
+chmod 777 file.txt
+ls -l file.txt
+find . -name file.txt
+locate file.txt
+
+
+Exp2: 
+
+sudo apt install default-jdk -y
+
+sudo apt install --reinstall java-wrappers
+
+sudo apt install --reinstall default-jdk
+
+Import java.util.Scanner
+System.nanoTime
+System.out.printf("%.6f seconds\n", time);
+
+
+C pgm
+#include <time.h>
+Clock_t start=clock()
+(double)(et-st)/CLOCKS_PER_SEC
+
+Gcc -o mypgm file.c
+./mypgm
+
+
+Sudo ufw disable
+Sudo iptables -F
+
+
+Ep 5: kvm
+
+Egrep -c ‘lm’ /proc/cpuinfo
+Uname -a
+Sudo apt-get install qemu-kvm libvirt-bin bridge-utils qemu-sys
+sudo apt-get install qemu-kvm libvirt-bin bridge-utils qemu-system virt-manager (used in expt)
+sudo apt-get install qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils qemu-system-x86 (use this)
+
+sudo nano /etc/libvirt/libvirtd.conf
+Grep ^[^#] /etc/libvirt/libvirtd.conf
+
+listen_addr="0.0.0.0"
+unix_sock_group=”libvirt”
+unix_sock_ro_perms=”0777”
+unix_sock_rw_perms=”0777”
+unix_sock_dir=”/var/run/libvirt”
+auth_unix_ro=”none”
+auth_unix_rw=”none”
+Sudo systemctl restart libvirtd
+Virsh list
+Virsh
+Version
+Nodeinfo
+Vm manager - qemu - new - import 
+wget https://download.cirros-cloud.net/0.5.1/cirros-0.5.1-x86_64-disk.img
+import- path /home/Lathika/cirros-0.5.1-x86_64-disk.img
+
+5b
+
+vm manager- create vm - local install media(iso)
+wget https://releases.ubuntu.com/16.04/ubuntu-16.04.7-server-amd64.iso
+qemu-img create -f qcow2 ubuntu_vm.qcow2 10G
+
+resize:
+sudo qemu-img resize ubuntu_vm.qcow2 +10G
+qemu-img info ubuntu_vm.qcow2
+
+convert:
+qemu-img convert -0 vdi ubuntu_vm.qcow2 ubuntu_vm.vdi -p
+                    vpc
+                    raw
+
+
+Exp6: file transfer
+Auto-mount click
+ls /media
+ls /media/sf_VMShared
+sudo usermod -aG vboxsf $USER
+cat /media/sf_VMShared/file.txt
+nano /media/sf_VMShared/file.txt
+
+cp ~/my_code.java /media/sf_VMShared/
+
+cp /media/sf_VMShared/my_code.java ~/
+
+ Ubuntu to kali:
+cp /home/osboxes/my_code.java /media/sf_VMShared/
+
+cp /media/sf_VMShared/my_code.java /home/kali/
+
+Kali to ubuntu:
+cp /home/kali/notes.txt /media/sf_VMShared/
+
+cp /media/sf_VMShared/notes.txt /home/osboxes/
+
+Method 2:
+
+Ip -4 a
+Ip link
+Sudo dhclient eth0
+Ip -4 a
+Sudo apt update
+Sudo apt install nfs-kernel-server -y
+Sudo mkdir -p /srv/nfs/nanfolder
+Sudo chown nobody:nogroup /srv/nfs/nanfolder
+Sudo chmod 777 /srv/nfs/nanfolder
+Sudo nano /etc/exports
+add line : /srv/nfs/nanfolder <kali ip>(rw,sync,no_subtree_check,no_root_squash)
+Sudo exportfs -a
+Sudo systemctl restart nfs-kernel-server
+Sudo ufw allow from <kali ip> to any port nfs
+Kali:
+Sudo wget https://archive.kali.org/archive-keyring.gpg -0 /usr/share/keyrings/kali-archive-keyring.gpg
+Sudo apt update
+Sudo apt install nfs-common -y
+Sudo mkdir -p /mnt/nfs/nanfolder
+Sudo mount <ubuntu ip>:/srv/nfs/nanfolder /mnt/nfs/nanfolder
+Df -h | grep nfs
+
+Ubuntu:
+Echo “Hello” | sudo tee /srv/nfs/nanfolder/ubuntu.txt
+kali:
+                         mnt
+Kali:
+Cat /mnt/nfs/nanfolder/ubuntu.txt
+ubuntu:
+    srv
+
+Exp7: hyper -v
+7b
+open Tools-> hyper v manager-> right click on server and click create new vm
+name, location, gen 2, 2048mb, default switch, create vhd 30gb, install os from bootable img file, browse ubuntu iso file, finish
+Change the Security setting - Change Template to MicrosoftUEFI
+we can start the the vm in hyper-V  manager by using connect option in the right panel after 
+starting the VM
+
+Windows powershell: 
+Get-VMSwitch
+New-Item -ItemType Directory -Path “C:\Hyper-V” -Force
+
+New-VM -Name “lathika” -MemoryStartupBytes 2GB -Generation  2 -NewVHDPath “C:\Hyper-V\lathika.vhdx” -NewVHDSizeBytes 30GB
+
+Connect-VMNetworkAdapter -VMName “lathika” -SwitchName “Default Switch”
+
+Add-VMDvdDrive -VMName “lathika” -Path “ubuntu iso image path”
+
+Set-VMFirmware -VMName “lathika” -FirstBootDevice (Get-VMDvdDrive -VMName “lathika”)
+
+(connect vm)
+Get-VM -Name “lathika”
+
+Stop-VM -Name “lathika”
+Get-VM -Name “lathika”
+
+migration
+
+
+Exp8: open v switch
+
+Ifconfig
+Sudo apt-get install bridge-utils
+Sudo modprobe bridge
+Sudo modprobe br_netfilter
+Sudo apt install openvswitch-switch -y
+Sudo apt status openvswitch-switch
+
+Sudo nano /ect/netplan/01-netcfg.yaml
+Network:
+	Version: 2
+	Renderer: networkd
+	Ethernets:
+		Eno2:
+			Dhcp4: no
+	bridges:
+		Br-cloud:
+			Interfaces:[eno2]
+			Addresses:[ip(ex. 10.0.2.15)/24]
+			Gateway4:ip(ex. 10.0.2.255)
+			Nameservers:
+				Addresses:[8.8.8.8,1.1.1.1]
+Sudo systemctl restart NetworkManager
+or
+Sudo systemctl restart networking
+
+
+Ip a
+Route -n
+Brctl show
+
+Sudo brctl addbr br-cloud
+Sudo brctl addif br-cloud-new enp0s3
+Ifconfig enp0s3
+Sudo Ifconfig br-cloud-new 10.0.2.15 netmask 255.255.255.0
+Sudo Route add default gw 10.0.2.15 dev br-cloud-new
+
+
+Sudo -s
+Ip netns add VRF1
+Ip netns add VRF2
+Ip netns list
+
+Ip link add veth1 type veth peer name veth2
+Ip link show
+Ip netns exec VRF1 ip link show
+Ip link add veth1 type veth peer name veth2
+Ip link set veth1 netns VRF1
+Ip link set veth3 netns VRF2
+Ip netns exec VRF1 ip link
+Ip netns exec VRF1 ifconfig veth1 10.10.10.1/24 up
+Ip netns exec VRF2 ifconfig veth3 10.10.10.2/24 up
+Ip netns exec VRF2 ifconfig
+Ip netns exec VRF1 ifconfig
+
+Sudo systemctl start openvswitch-switch
+Sudo systemctl enable openvswitch-switch
+
+Ovs-vsctl show
+Ovs-vsctl add-port vSwitch1 veth4
+
+expt 8 alternate
+
+# EXPERIMENT 8 — OPEN vSWITCH AND LINUX BRIDGE
+
+
+# 1. Check system and network information
+uname -a
+ifconfig
+ip addr
+ip route
+
+sudo apt-get update
+
+sudo apt-get install -y bridge-utils
+sudo modprobe bridge
+sudo modprobe br_netfilter
+
+lsmod | grep bridge
+
+sudo apt-get install -y openvswitch-switch
+
+sudo systemctl status openvswitch-switch
+
+sudo systemctl start openvswitch-switch
+
+sudo systemctl enable openvswitch-switch
+
+
+# PART A — LINUX BRIDGE
+
+sudo brctl addbr br-cloud
+
+sudo ip link set br-cloud up
+
+sudo ip link add veth1 type veth peer name veth2
+
+sudo ip link add veth3 type veth peer name veth4
+
+sudo ip netns add VRF1
+sudo ip netns add VRF2
+
+sudo ip link set veth1 netns VRF1
+sudo ip link set veth3 netns VRF2
+
+sudo ip netns exec VRF1 ip link set lo up
+sudo ip netns exec VRF2 ip link set lo up
+
+sudo ip netns exec VRF1 ip addr add 10.10.10.1/24 dev veth1
+sudo ip netns exec VRF2 ip addr add 10.10.10.2/24 dev veth3
+
+sudo ip netns exec VRF1 ip link set veth1 up
+sudo ip netns exec VRF2 ip link set veth3 up
+
+sudo ip link set veth2 up
+sudo ip link set veth4 up
+
+sudo brctl addif br-cloud veth2
+sudo brctl addif br-cloud veth4
+
+brctl show
+
+ip netns list
+
+sudo ip netns exec VRF1 ip addr
+
+sudo ip netns exec VRF2 ip addr
+
+sudo ip netns exec VRF1 ping -c 4 10.10.10.2
+
+
+# PART B — OPEN vSWITCH
+
+
+sudo ovs-vsctl show
+
+sudo ovs-vsctl add-br vSwitch1
+
+sudo ip link add ovs-veth1 type veth peer name ovs-veth2
+
+sudo ip link set ovs-veth1 up
+sudo ip link set ovs-veth2 up
+
+sudo ovs-vsctl add-port vSwitch1 ovs-veth1
+
+sudo ip link set vSwitch1 up
+
+sudo ovs-vsctl show
+
+sudo ovs-vsctl list-br
+
+sudo ovs-vsctl list-ports vSwitch1
+
+
+# FINAL VERIFICATION
+
+
+# 35. Show network interfaces
+ip link show
+
+# 36. Show Linux bridge
+brctl show
+
+# 37. Show network namespaces
+ip netns list
+
+# 38. Show VRF1
+sudo ip netns exec VRF1 ip addr
+
+# 39. Show VRF2
+sudo ip netns exec VRF2 ip addr
+
+# 40. Show Open vSwitch configuration
+sudo ovs-vsctl show
+
+# 41. Show OVS bridges
+sudo ovs-vsctl list-br
+
+
+
+expt  9: Installation of OpenStack and VM Creation
+
+1. Check system readiness
+
+
+lsb_release -a
+uname -m
+nproc
+free -h
+df -h /
+sudo apt update
+sudo apt install -y snapd cpu-checker
+sudo systemctl enable --now snapd
+sudo kvm-ok
+
+
+**Prerequisite:** Use an Ubuntu x86_64 VM with sufficient RAM, disk space and working KVM/nested virtualization. Stop if KVM is unavailable.
+
+2. Install MicroStack
+
+
+sudo snap install microstack --beta
+snap list microstack
+
+
+ 3. Initialize OpenStack
+
+
+sudo microstack init --auto --control
+ **note the dashboard url
+
+Wait for initialization to finish successfully.
+
+ 4. Verify installation and resources
+
+
+microstack.openstack --version
+sudo snap get microstack config.credentials.keystone-password
+microstack.openstack image list
+microstack.openstack flavor list
+microstack.openstack network list
+
+
+Confirm that a usable image, the `m1.tiny` flavor, and a usable network are present before creating the VM.
+
+5. Create the virtual machine
+
+
+microstack launch cirros --name vm1
+
+
+Wait for the command to finish.
+
+6. Verify VM creation
+
+
+microstack.openstack server list
+microstack.openstack server show vm1
+
+
+**Expected result:** The VM named `vm1` reaches `ACTIVE`.
+
+ 7. Dashboard access
+
+
+ip -br addr
+sudo snap get microstack config.credentials.keystone-password
+
+
+Use the dashboard URL printed during initialization.if not(sudo snap services microstack)
+
+**Login**
+- Username: `admin`
+- Password: The value printed by the Keystone password command.
+
+**Result:** OpenStack installed, resources verified, and a CirrOS virtual machine created.
+
+
+expt 10
+PART A — CREATE VHD ON WINDOWS
+
+1. Press Win + R -> type diskmgmt.msc.
+2. Disk Management -> Action -> Create VHD.
+3. Choose location, size (e.g., 2 GB), VHD/VHDX, and Dynamically expanding -> OK.
+4. Right-click the new disk -> Initialize Disk.
+5. Right-click Unallocated space -> New Simple Volume -> assign drive letter -> format NTFS.
+6. To move it: right-click the VHD disk label -> Detach VHD.
+7. Copy the .vhd/.vhdx file to the second Windows host.
+8. On the second host: diskmgmt.msc -> Action -> Attach VHD -> select file.
+9. Assign a drive letter if needed and verify the files.
+
+PART B — STORAGE VIRTUALIZATION USING LVM
+
+1. VirtualBox -> VM Settings -> Storage -> Add Hard Disk -> Create.
+2. Choose VDI -> Dynamically allocated -> 7 GB -> Finish.
+3. Start Ubuntu and inspect disks/LVM:
+
+sudo -i
+lsblk
+pvs
+vgs
+lvs
+
+4. Identify the new empty disk by size. The example below assumes /dev/sdb.
+   DO NOT use /dev/sdb unless you have confirmed it is the new disk.
+
+pvcreate /dev/sdb
+vgextend ubuntu-vg /dev/sdb
+lvextend -L +3G /dev/ubuntu-vg/root
+resize2fs /dev/ubuntu-vg/root
+
+5. Verify the result:
+
+df -h /
+lsblk
+pvs
+vgs
+lvs
+What: We add a new virtual hard disk to Ubuntu.
+Why: To increase the storage space available to Ubuntu.
+How: We use LVM to add 3 GB to the root storage and check whether the size has increased.
+LVM: A method to increase or manage storage space easily.
+PV (Physical Volume): The disk we prepare to use with LVM.
+VG (Volume Group): A storage pool made by combining one or more PVs.
+LV (Logical Volume): A portion of the storage pool that we assign to Ubuntu to store files.
+
+
+
+
+ 
+	
+
