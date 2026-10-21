@@ -1,0 +1,371 @@
+winget install --id Git.Git -e –-source winget 
+
+sudo ip link set enp0s3 up
+
+sudo nano /etc/netplan/01-network-manager-all.yaml
+
+network:
+  version: 2
+  renderer: networkmanager 
+  ethernets:
+    enp0s3:
+      dhcp4: true
+
+sudo netplan apply
+
+sudo nano /etc/networkmanager/networkmanager.conf
+
+sudo systemctl restart networkmanager
+
+sudo dhclient -v enp0s3
+
+
+exp 1:
+sudo useradd -m amirthaa
+sudo passwd amirthaa
+sudo usermod -aG sudo amirthaa
+su  -  amirthaa
+sudo deluser --remove-home amirthaa
+pwd
+ls
+echo “hello” >> nan.txt
+grep “hello” nan
+df -h
+du -sh
+top
+date 
+time
+touch file.txt
+head -n file.txt
+uname -a
+chmod 777 file.txt
+ls -l file.txt
+find . -name file.txt
+locate file.txt
+
+
+exp2: 
+
+sudo apt install default-jdk -y
+
+sudo apt install --reinstall java-wrappers
+
+sudo apt install --reinstall default-jdk
+
+public class sum{
+public static void main(string[] args){
+long st = system.nanotime();
+long sum = 0;
+for(long i=0;i<1000000000l;i++){
+sum+=i;
+long et=system.nanotime();
+double ds=(et-st)/1000000000.0;
+system.out.println("sum ts"+sum);
+system.out.println("executton time "+ds+" seconds");
+}}
+
+sudo ufw disable
+sudo iptables -f
+
+
+ep 5: kvm
+
+lscpu  - look for vt-x | amd-v
+egrep -c ‘(vmx|svm)’ /proc/cpuinfo
+sudo apt update
+sudo apt install qemu-utils qemu-kvm libvirt-daemon-system libvirt-clients virt-manager cpu-checker
+kvm-ok – ok nu varanum
+
+sudo systemctl status libvirtd  - active nu varanum
+else 
+   sudo systemctl start libvirtd
+   sudo systemctl enable libvirtd
+
+sudo usermod -aG libvirt $USER -UR USER NAME($USER)
+sudo usermod -aG kvm $USER
+sudo reboot
+after logging back in, check:
+groups
+you should see:
+libvirt
+kvm
+among your groups.
+
+//5B
+virsh 
+•	list
+•	nodeinfo
+•	version
+https://download.cirros-cloud.net/0.5.1/
+
+create a qcow2 image
+•	qemu-img create -f qcow2 ubuntu-disk.qcow2 10g
+resize the qcow2 image
+•	qemu-img resize ubuntu-disk.qcow2 20g
+
+all conversion commands together
+qcow2 → vdi
+qemu-img convert -f qcow2 -0 vdi ubuntu-disk.qcow2 ubuntu-disk.vdi
+qcow2 → vhd
+qemu-img convert -f qcow2 -0 vpc ubuntu-disk.qcow2 ubuntu-disk.vhd
+qcow2 → img
+qemu-img convert -f qcow2 -0 raw ubuntu-disk.qcow2 ubuntu-disk.img
+//5B
+
+
+exp6: file transfer
+
+---remember   auto-mount click
+ls /media
+ls /media/sf_VMShared
+sudo usermod -aG vboxsf $USER
+sudo reboot
+cat /media/sf_VMShared/file.txt
+nano /media/sf_VMShared/file.txt
+
+cp ~/my_code.java /media/sf_vmshared/
+
+cp /media/sf_vmshared/my_code.java ~/
+
+ ubuntu to kali:
+cp /home/osboxes/my_code.java /media/sf_vmshared/
+
+cp /media/sf_vmshared/my_code.java /home/kali/
+
+kali to ubuntu:
+cp /home/kali/notes.txt /media/sf_vmshared/
+
+cp /media/sf_vmshared/notes.txt /home/osboxes/
+
+method 2: NFS
+
+ip -4 a
+ip link
+sudo dhclient eth0
+ip -4 a
+sudo apt update
+sudo apt install nfs-kernel-server -y
+sudo mkdir -p /srv/nfs/nfsfolder
+sudo chown nobody:nogroup /srv/nfs/nfsfolder
+sudo chmod 777 /srv/nfs/nfsfolder
+sudo nano /etc/exports
+/srv/nfs/nfsfolder <kali ip>(rw,sync,no_subtree_check,no_root_squash)
+sudo exportfs -a
+sudo systemctl restart nfs-kernel-server
+sudo ufw allow from <kali ip> to any port nfs
+kail:
+sudo wget https://archive.kali.org/archive-keyring.gpg -0 /usr/share/keyrings/kali-archive-keyring.gpg
+sudo apt update
+sudo apt install nfs-common -y
+sudo mkdir -p /mnt/nfs/nan
+sudo mout <ubuntu ip>:/srv/nfs/nanfolder /mnt/nfs/nanfolder
+df -h | grep nfs
+
+ubuntu:
+echo “hello” | sudo tee /srv/nfs/nfsfolder/ubuntu.txt
+kali:
+cat /mnt/nfs/nfsfolder/ubuntu.txt
+
+exp7: hyper -v
+window:
+Get-VMSwitch
+New-Item -ItemType Directory -Path "C:\HyperV\Ubuntu-PS" -Force
+New-VM `
+  -Name "Ubuntu-amirthaa" `
+  -Generation 2 `
+  -MemoryStartupBytes 2GB `
+  -NewVHDPath "C:\HyperV\Ubuntu-PS\Ubuntu-PS.vhdx" `
+  -NewVHDSizeBytes 30GB `
+  -Path "C:\HyperV\Ubuntu-PS"
+
+Check the switch name through 
+Get-VMSwitch
+ 
+
+Connect-VMNetworkAdapter -VMName "Ubuntu-amirthaa" -SwitchName "Default Switch"
+Get-VMNetworkAdapter -VMName "Ubuntu-amirthaa"
+--ensure the path of iso file
+Add-VMDvdDrive -VMName "Ubuntu-amirthaa" -Path "C:\Users\YourName\Downloads\ubuntu.iso"
+Set-VMFirmware -VMName "Ubuntu-amirthaa" -EnableSecureBoot On -SecureBootTemplate MicrosoftUEFICertificateAuthority
+Start-VM -Name "Ubuntu-amirthaa"
+Get-VM -Name "Ubuntu-amirthaa"
+Stop-VM -Name "Ubuntu-amirthaa" -TurnOff
+
+exp8: open v switch
+
+ip a
+sudo apt-get install bridge-utils
+bridge -V
+sudo ip link add veth1 type veth peer name veth2 
+ip link
+sudo ip link set veth1 master br0
+sudo ip link set veth2 master br0
+sudo ip link set veth1 up
+sudo ip link set veth2 up
+bridge link
+You should see something similar to:
+veth1 master br0
+veth2 master br0
+brctl show
+
+open switch
+sudo apt update
+sudo apt install openvswitch-switch
+sudo systemctl status openvswitch-switch
+sudo systemctl start openvswitch-switch
+sudo systemctl enable openvswitch-switch
+sudo ovs-vsctl show
+sudo ovs-vsctl add-br ovs-br0
+sudo ovs-vsctl show
+You should now see something similar to:
+Bridge ovs-br0
+    Port ovs-br0
+        Interface ovs-br0
+sudo ip link add veth3 type veth peer name veth4
+sudo ip link set veth3 up
+sudo ip link set veth4 up
+sudo ovs-vsctl add-port ovs-br0 veth3
+sudo ovs-vsctl add-port ovs-br0 veth4
+sudo ovs-vsctl show
+sudo ovs-vsctl list-ports ovs-br0
+sudo ovs-ofctl show ovs-br0
+sudo ovs-vsctl show
+sudo ovs-vsctl list-ports ovs-br0
+ip link
+
+Other method
+sudo modprobe bridge
+sudo modprobe br_netfilter
+sudo apt install openvswitch-switch -y
+sudo apt status openvswitch-switch
+
+sudo nano /ect/netplan/01-netcfg.yaml
+network:
+	version: 2
+	renderer: networkd
+	ethernets:
+		eno2:
+			dhcp4: no
+	bridges:
+	br-cloud:
+interfaces:[eno2]
+addresses:[]
+gateway4:
+nameservers:
+addresses:[8.8.8.8,1.1.1.1]
+sudo systemctl restart networkmanager
+ip a
+route -n
+brctl show
+
+sudo brctl addbr br-cloud
+sudo brctl addif br-cloud-new enp0s3
+ifconfig enp0s3
+sudo ifconfig br-cloud-new 10.0.2.15 netmask 255.255.255.0
+sudo route add default gw 10.0.2.15 dev br-cloud-new
+
+sudo -s
+ip netns add vrf1
+ip netns add vrf2
+ip netns list
+
+ip link add veth1 type veth peer name veth2
+ip link show
+ip netns exec vrf1 ip link show
+ip link add veth1 type veth peer name veth2
+ip link set veth1 netns vrf1
+ip link set veth3 netns vrf2
+ip netns exec vrf1 ip link
+ip netns exec vrf1 ifconfig veth1 10.10.10.1/24 up
+ip netns exec vrf2 ifconfig veth3 10.10.10.2/24 up
+ip netns exec vrf2 ifconfig
+ip netns exec vrf1 ifconfig
+
+sudo systemctl start openvswitch-switch
+sudo systemctl enable openvswitch-switch
+
+ovs-vsctl show
+ovs-vsctl add-port vswitch1 veth4
+
+EXP – 9
+
+sudo apt install -y git curl wget net-tools iproute2 \
+python3-pip python3-venv build-essential
+sudo useradd -s /bin/bash -d /opt/stack -m amirthaastack
+ id amirthaastack
+echo "stack ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/amirthaastack
+sudo chmod 0440 /etc/sudoers.d/amirthaastack
+sudo visudo -cf /etc/sudoers.d/amirthaastack
+sudo -iu amirthaastack
+whoami
+git clone https://opendev.org/openstack/devstack
+cd devstack
+nano local.conf
+inside write:
+[[local|localrc]]
+ADMIN_PASSWORD=LabPass123
+DATABASE_PASSWORD=$ADMIN_PASSWORD
+RABBIT_PASSWORD=$ADMIN_PASSWORD
+SERVICE_PASSWORD=$ADMIN_PASSWORD
+HOST_IP=YOUR_UBUNTU_IP //replace the ubantu’s ip
+
+Ip can be found:
+ip -4 addr
+
+./amirthaastack.sh
+
+Open http://192.168.1.10/  //host ubantu’s ip
+source openrc admin admin
+openstack token issue
+openstack image list
+openstack flavor list
+openstack network list
+openstack keypair create --private-key mykey.pem mykey
+chmod 600 mykey.pem
+openstack network list
+
+for the below replace using the one u get through
+openstack image list
+openstack flavor list
+openstack network list – choose the private one
+
+openstack server create \
+  --image IMAGE_NAME_OR_ID \
+  --flavor FLAVOR_NAME_OR_ID \
+  --nic net-id=NETWORK_ID \
+  --key-name mykey \
+  my-first-vm
+
+openstack server list
+openstack server show my-first-vm
+
+
+Exp 10 
+diskmgmt.msc
+sudo fdisk -l
+sudo pvs
+sudo vgs
+sudo lvs
+
+or
+sudo pvdisplay
+sudo vgdisplay
+sudo lvdisplay
+
+
+sudo pvcreate /dev/sdb
+sudo vgs
+sudo vgextend ubuntu-vg /dev/sdb
+sudo vgs
+sudo lvs
+sudo lvextend -L +3G /dev/ubuntu-vg/root
+df -h
+findmnt -no SOURCE,FSTYPE /
+sudo resize2fs /dev/ubuntu-vg/root
+or
+resize2fs /dev/mapper/cloud--vg-root
+
+df -h
+sudo pvs
+sudo vgs
+sudo lvs
